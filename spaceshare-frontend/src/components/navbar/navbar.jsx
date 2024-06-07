@@ -32,7 +32,7 @@ const Navb = () => {
     <Navbar className="navbar" bg="transparent" variant="dark" expand="lg">
       <Navbar.Brand href="/">
         <img className="mx-3" src={logo} alt="Logo" height={50} />
-        GoDine
+        SpaceShare
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav ">
