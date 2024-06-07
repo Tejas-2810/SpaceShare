@@ -7,6 +7,7 @@ import Signup from "./views/authentication/signup";
 import ForgotPassword from "./views/authentication/forgotPassword";
 import ResetPassword from "./views/authentication/resetPassword";
 import Footer from "./components/footer/footer";
+import Dashboard from "./views/dashboard/dashboard";
 import RequireAuth from "./utils/RequireAuth";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -35,6 +36,7 @@ function App() {
           </Route>
           {/* space owner route */}
           <Route element={<RequireAuth allowedRoles={[ROLES.SPACE_OWNER]} />}>
+          <Route path="/dashboard" element={<Dashboard />} />
 
           </Route>
           {/* common routes */}

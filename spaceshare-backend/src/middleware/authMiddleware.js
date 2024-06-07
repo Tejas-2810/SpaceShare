@@ -21,7 +21,7 @@ const checkAuth = async (req, res, next) => {
         .status(401)
         .json({ message: "The user belonging to this token no longer exists" });
     }
-    if (!["user", "restaurant owner", "admin"].includes(user.role)) {
+    if (!["user", "space owner"].includes(user.role)) {
       return res
         .status(403)
         .json({ message: "You do not have permission to perform this action" });
