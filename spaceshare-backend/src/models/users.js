@@ -27,6 +27,12 @@ const userSchema = new mongoose.Schema(
       enum: ["space owner", "user"],
       default: "user",
     },
+    spaces: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Spaces",
+      },
+    ],
 
     passwordResetToken: String,
     passwordResetExpires: Date,
@@ -38,7 +44,7 @@ userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
-});
+}); 
 
 
 userSchema.methods.createPasswordResetToken = function () {
