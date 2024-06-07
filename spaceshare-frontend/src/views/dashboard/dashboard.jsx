@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <div className="App">
     <header className="App-header">
-      <h1>Dashboard Page</h1>
+      <h1>Dashboard Page for space owners</h1>
       <p>This page is currently under construction.</p>
     </header>
   </div>
