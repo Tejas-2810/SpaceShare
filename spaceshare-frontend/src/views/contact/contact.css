@@ -1,0 +1,95 @@
+
+:root {
+  --background-color: #F1FAEE; /* Light Peach */
+  --wrapper-bg-color: #FFFFFF; /* Pure white for focus on form */
+  --tab-bg-color: #E9C46A; /* Powder Pink */
+  --tab-active-bg-color: #F4A261; /* Soft Coral */
+  --input-bg-color: #FFFFFF; /* White for clarity in inputs */
+  --input-border-color: #A8DADC; /* Pastel Blue */
+  --input-focus-border-color: #2A9D8F; /* Creamy Mint */
+  --error-color: #E63946; /* A more vibrant red for errors, to ensure visibility */
+  --button-bg-color: #2A9D8F; /* Creamy Mint */
+  --text-color: #457B9D; /* Slate Grey */
+  --error-text-color: #E63946; /* Consistent with error color */
+  --font-family: 'Rubik', sans-serif; /* Custom Google Font */
+}
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--background-color);
+  font-family: var(--font-family);
+}
+
+.contact-wrapper {
+  background: var(--wrapper-bg-color);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.contact-header {
+  text-align: center;
+  color: var(--text-color);
+  font-size: 24px; 
+  font-weight: 500; 
+  margin-bottom: 20px; 
+}
+
+.contact-tab-switch {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.contact-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  background: var(--tab-bg-color);
+  border: none;
+  outline: none;
+  transition: background-color 0.3s;
+}
+
+.contact-tab.active {
+  background-color: var(--tab-active-bg-color);
+  color: white;
+}
+
+.contact-input, .contact-textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid var(--input-border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg-color);
+}
+
+.contact-input:focus, .contact-textarea:focus {
+  border-color: var(--input-focus-border-color);
+  outline: none;
+}
+
+.contact-input.error, .contact-textarea.error {
+  border-color: var(--error-color);
+}
+
+.contact-error-message {
+  color: var(--error-text-color);
+  font-size: 0.8em;
+}
+
+.contact-submit-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--button-bg-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
