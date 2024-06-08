@@ -80,6 +80,7 @@ exports.getUserspacesAverageRating = async (req, res) => {
     try {
       const userId = req.params.userId;
       const user = await User.findById(userId).populate('spaces');
+      console.log("USER:DSWF",user)
   
       if (!user || user.spaces.length === 0) {
         return res.status(200).json({ message: "No spaces for the particular space owner yet" });

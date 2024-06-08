@@ -26,7 +26,7 @@ const FILE_TYPE_MAP = {
 
 // space Dashboard
 router.post(
-  "/createspaces/:userId",
+  "/createspaces",
   // upload.fields([
   //   { name: "menu", maxCount: 3 },
   //   { name: "photos", maxCount: 5 },

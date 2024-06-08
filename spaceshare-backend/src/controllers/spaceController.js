@@ -7,13 +7,16 @@ const User = require("../models/users");
 
 exports.createSpace = async (req, res) => {
   try {
-    //const { userId, data } = req.body; // Destructure userId and data from req.body
+    const { userId, data } = req.body; // Destructure userId and data from req.body
     //console.log(req.body, userId, data)
-    const data  = req.body;
+    //const data  = req.body;
 
     // Parse the restaurant data
+    console.log("IMP",data)
     //const jsonData = JSON.parse(data);
+    console.log("IMP DATA",userId, data)
     const jsonData = data
+    console.log(data)
 
     // Upload menu and photos to Cloudinary
     // const uploadMenuPromises = req.files["menu"].map((file) =>
@@ -36,8 +39,8 @@ exports.createSpace = async (req, res) => {
     const newSpace = await Space.create(spaceData);
 
 
-    //const user = await User.findById(userId);
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(userId);
+    //const user = await User.findById(req.params.userId);
 
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
@@ -182,15 +185,16 @@ exports.getTopSpacesBySeatingCapacity = async (req, res) => {
 
 exports.deleteSpaceById = async (req, res) => {
   try {
-    const restaurantId = req.params.restaurantId;
-    const restaurant = await Restaurant.findById(restaurantId);
+    const spaceId = req.params.spaceId;
+    const space = await Space.findById(spaceId);
 
-    if (!restaurant) {
-      return res.status(404).json({ message: "Restaurant not found" });
+    if (!space) {
+      return res.status(404).json({ message: "Space not found" });
     }
 
-    await Restaurant.findByIdAndDelete(restaurantId);
-    res.status(200).json({ message: "Restaurant deleted successfully" });
+    await Space.findByIdAndDelete(spaceId);
+
+    res.status(200).json({ message: "Space deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
