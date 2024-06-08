@@ -175,7 +175,7 @@ function Signup() {
     }
 
     function handleToggle() {
-        setToggleValue(prevValue => prevValue === 'user' ? 'restaurant owner' : 'user');
+        setToggleValue(prevValue => prevValue === 'user' ? 'space owner' : 'user');
     }
 
 
@@ -225,7 +225,7 @@ function Signup() {
                                             <input type='checkbox' onChange={handleToggle} />
                                             <span className='slider round' />
                                         </label>
-                                        <span className='toggle-value'>Restaurant owner</span>
+                                        <span className='toggle-value'>Space owner</span>
                                     </div>
                                     <button type='submit' className='btn btn-primary m-1' onClick={handleSubmit} >Submit</button>
                                 </form>
