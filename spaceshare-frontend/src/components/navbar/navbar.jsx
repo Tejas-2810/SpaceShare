@@ -15,6 +15,9 @@ const Navb = () => {
       case "1":
         navigate("/signin");
         break;
+      case "4":
+        navigate("/faq");
+        break;
       default:
         navigate("/");
         break;
@@ -32,11 +35,14 @@ const Navb = () => {
     <Navbar className="navbar" bg="transparent" variant="dark" expand="lg">
       <Navbar.Brand href="/">
         <img className="mx-3" src={logo} alt="Logo" height={50} />
-        GoDine
+        SpaceShare
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav ">
         <Nav className="m-4 h6 text-center ">
+          <Nav.Link onClick={() => redirect("4")} className="tw">
+            FAQ
+          </Nav.Link>
           {!isSessionValid() ? (
             <Nav.Link onClick={() => redirect("1")} className="tw">
               Sign in
