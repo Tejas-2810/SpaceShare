@@ -19,13 +19,13 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [ar, setAr] = useState(0);
   const [tb, setTb] = useState(0);
-  const [restaurantDetails, setRestaurantDetails] = useState([]);
+  const [spaceDetails, setSpaceDetails] = useState([]);
 
-  // fields for creating a new restaurant
-  const [restaurantName, setRestaurantName] = useState("");
+  // fields for creating a new space
+  const [spaceName, setSpaceName] = useState("");
   const [address, setAddress] = useState("");
   const [pricing, setPricing] = useState("");
-  const [cuisines, setCuisines] = useState("");
+  const [type, setType] = useState("");
   const [workingHours, setWorkingHours] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [seatingCapacity, setSeatingCapacity] = useState("");
@@ -35,8 +35,8 @@ const Dashboard = () => {
   useEffect(() => {
     const server_url =
       process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
-    const ear = `${server_url}/api/restaurants/overall-averagerating/${userId}`;
-    const etb = `${server_url}/api/restaurants/total-bookings/${userId}`;
+    const ear = `${server_url}/api/spaces/overall-averagerating/${userId}`;
+    const etb = `${server_url}/api/spaces/total-bookings/${userId}`;
     axios.get(ear).then((response) => {
       const ar = response.data.overallAverageRating;
       if (ar === 0) {
@@ -57,10 +57,10 @@ const Dashboard = () => {
     cancelRequestRef.current?.abort();
     cancelRequestRef.current = new AbortController();
     const fetchData = async () => {
-      const resturant_endpoint =
+      const space_endpoint =
         process.env.REACT_APP_PROFILE_ENDPOINT ||
-        "api/restaurants/restaurantratings";
-      const endpoint = `${server_url}/${resturant_endpoint}/${userId}`;
+        "api/spaces/spaceratings";
+      const endpoint = `${server_url}/${space_endpoint}/${userId}`;
       try {
         const token = sessionStorage.getItem("token");
         const headers = {
@@ -75,7 +75,7 @@ const Dashboard = () => {
           .then((response) => response)
           .catch((err) => err);
         setRdata(response.data);
-        console.log(rdata);
+        console.log("PERFECT",rdata);
       } catch (error) {
         console.error("Error fetching Space data:", error);
       }
@@ -84,7 +84,7 @@ const Dashboard = () => {
     const fetchData2 = async () => {
       const resturant_endpoint =
         process.env.REACT_APP_PROFILE_ENDPOINT ||
-        "api/restaurants/numberOfrestaurantbookings";
+        "api/spaces/numberOfspacebookings";
       const endpoint = `${server_url}/${resturant_endpoint}/${userId}`;
       try {
         const token = sessionStorage.getItem("token");
@@ -109,7 +109,7 @@ const Dashboard = () => {
     const fetchData3 = async () => {
       const resturant_endpoint =
         process.env.REACT_APP_PROFILE_ENDPOINT ||
-        "api/restaurants/bookingpercentages";
+        "api/spaces/bookingpercentages";
       const endpoint = `${server_url}/${resturant_endpoint}/${userId}`;
       try {
         const token = sessionStorage.getItem("token");
@@ -131,8 +131,8 @@ const Dashboard = () => {
       }
     };
 
-    const fetchRestaurants = async () => {
-      const endpoint = `${server_url}/api/restaurants/ownerrestaurants/${userId}`;
+    const fetchSpaces = async () => {
+      const endpoint = `${server_url}/api/spaces/ownerspaces/${userId}`;
       try {
         const token = sessionStorage.getItem("token");
         const headers = {
@@ -144,7 +144,7 @@ const Dashboard = () => {
           console.error("Error fetching user's Spaces:", response.message);
           return;
         }
-        setRestaurantDetails(response.data);
+        setSpaceDetails(response.data);
       } catch (error) {
         console.error("Error fetching user's Spaces:", error.message);
       }
@@ -153,7 +153,7 @@ const Dashboard = () => {
     fetchData();
     fetchData2();
     fetchData3();
-    fetchRestaurants();
+    fetchSpaces();
   }, []);
 
   var gone = [];
@@ -163,9 +163,9 @@ const Dashboard = () => {
     rdata &&
     rdata.message !== "No Spaces for the particular Space owner yet"
   ) {
-    console.log(rdata);
+    console.log("pppppppp",rdata);
     gone = rdata.map((item) => {
-      return { label: item.restaurantName, y: item.averageRating || 1 };
+      return { label: item.spaceName, y: item.averageRating || 1 };
     });
   } else {
     gone = [{ label: "No Spaces", y: 1 }];
@@ -176,7 +176,7 @@ const Dashboard = () => {
   ) {
     console.log(bdata);
     gtwo = bdata.map((item) => {
-      return { label: item.restaurantName, y: item.numberOfBookings || 1 };
+      return { label: item.spaceName, y: item.numberOfBookings || 1 };
     });
   } else {
     gtwo = [{ label: "No Spaces", y: 1 }];
@@ -221,82 +221,69 @@ const Dashboard = () => {
     setPhotos(file);
   };
 
-  // adding a restaurant
-  const handAddRestaurant = async (e) => {
+  // adding a space
+  const handAddSpace = async (e) => {
     e.preventDefault();
-    if (
-      !restaurantName ||
-      restaurantName === "" ||
-      !address ||
-      address === "" ||
-      !pricing ||
-      pricing === "" ||
-      !cuisines ||
-      cuisines === "" ||
-      !workingHours ||
-      workingHours === "" ||
-      !contactNumber ||
-      contactNumber === "" ||
-      !seatingCapacity ||
-      seatingCapacity === ""
-    ) {
+    if (!spaceName || !address || !pricing || !workingHours || !type || !contactNumber || !seatingCapacity) {
       alert("Please fill all the fields");
       return;
-    }
-
+    } 
+  
     const phoneNumberRegex = /^\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/;
-
     if (!phoneNumberRegex.test(contactNumber) || contactNumber.length !== 10) {
       alert("Please enter a valid phone number");
       return;
     }
-
+  
     if (Number(seatingCapacity) <= 0) {
       alert("Please enter a valid seating capacity");
       return;
     }
-
+  
     try {
       const token = sessionStorage.getItem("token");
       const headers = {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       };
-
+  
       const form = new FormData();
       const data = {
-        restaurantName: restaurantName,
-        restaurantAddress: address,
-        pricing: pricing,
-        cuisine: cuisines,
+        data:{spaceName:spaceName,
+        spaceAddress: address,
         operatingHours: workingHours,
-        contactNumber: contactNumber,
-        seatingCapacity: seatingCapacity,
+        contactNumber:contactNumber,
+        spaceType:type,
+        seatingCapacity:seatingCapacity,
+        pricing:pricing},  // Assuming you want to send this too
+        userId:userId
       };
+  
+      // form.append("data", JSON.stringify(jsonData));
 
-      form.append("photos", photos);
-      form.append("data", JSON.stringify(data));
-      form.append("userId", userId);
+      // console.log(form, jsonData);
+  
+      // if (photos) {
+      //   form.append("photos", photos);
+      // }
+  
+      const addSpaceUrl = `${server_url}/api/spaces/createspaces`;
+      console.log(addSpaceUrl)
+      const response = await axios.post(addSpaceUrl, data, { headers });
 
-      const addRestaurantUrl = `${server_url}/api/restaurants/createRestaurants`;
-      const response = await axios
-        .post(addRestaurantUrl, form, { headers: headers })
-        .then((response) => response)
-        .catch((err) => err);
-
-      if (isAxiosError(response)) {
-        alert("Error adding Space");
-        console.error("Error adding Space:", response.message);
-        return;
+      console.log("RESPONSE",response)
+  
+      if (response.status === 200 || response.status === 201) {
+        // Handle success
+        alert("Space added successfully");
+        navigate('/dashboard'); // Redirect or refresh the page, if needed
       }
-
-      console.log("response: ", response.data);
-    } catch (err) {
-      console.log("error in adding restaurant: ", err);
+    } catch (error) {
+      console.error("error in adding space: ", error);
+      alert("Error adding Space");
     }
   };
 
-  const handleDeleteRestaurant = async (userId, restaurantId) => {
+  const handleDeleteSpace = async (userId, spaceId) => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this Space?"
     );
@@ -308,17 +295,18 @@ const Dashboard = () => {
           Authorization: `Bearer ${token}`,
         };
 
-        // delete restaurant in collection
-        const deleteRestaurantUrl = `${server_url}/api/restaurants/delete/${restaurantId}`;
-        await axios.delete(deleteRestaurantUrl, { headers: headers });
+        // delete space in collection
+        const deleteSpaceUrl = `${server_url}/api/spaces/delete/${spaceId}`;
+        await axios.delete(deleteSpaceUrl, { headers: headers });
 
-        // delete restaurant in owner object
-        const deleteUrl = `${server_url}/api/restaurants/delete/${userId}/${restaurantId}`;
+        // delete space in owner object
+        const deleteUrl = `${server_url}/api/spaces/delete/${userId}/${spaceId}`;
         await axios.delete(deleteUrl, { headers: headers });
+        alert("Space deleted successfully!!")
 
-        setRestaurantDetails(
-          restaurantDetails.filter(
-            (restaurant) => restaurant._id !== restaurantId
+        setSpaceDetails(
+          spaceDetails.filter(
+            (space) => space._id !== spaceId
           )
         );
       } catch (error) {
@@ -406,13 +394,13 @@ const Dashboard = () => {
             <form className="form">
               <h1 className="text-center">Add Space Details</h1>
               <div className="form-group">
-                <label htmlFor="restaurantName">Space Name</label>
+                <label htmlFor="spaceName">Space Name</label>
                 <input
                   type="text"
-                  value={restaurantName}
+                  value={spaceName}
                   className="form-control"
-                  id="restaurantName"
-                  onInput={(e) => setRestaurantName(e.target.value)}
+                  id="spaceName"
+                  onInput={(e) => setSpaceName(e.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -437,13 +425,13 @@ const Dashboard = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="cuisines">Space Type</label>
+                <label htmlFor="type">Space Type</label>
                 <input
                   type="text"
-                  value={cuisines}
-                  onInput={(e) => setCuisines(e.target.value)}
+                  value={type}
+                  onInput={(e) => setType(e.target.value)}
                   className="form-control"
-                  id="cuisines"
+                  id="type"
                 />
               </div>
               <div className="form-group">
@@ -499,7 +487,7 @@ const Dashboard = () => {
               </div>
               <div className="form-group text-center">
                 <button
-                  onClick={(e) => handAddRestaurant(e)}
+                  onClick={(e) => handAddSpace(e)}
                   className="btn btn-primary"
                 >
                   Submit
@@ -518,17 +506,17 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(restaurantDetails) &&
-                  restaurantDetails.map((restaurant, index) => (
+                {Array.isArray(spaceDetails) &&
+                  spaceDetails.map((space, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{restaurant.restaurantName}</td>
+                      <td>{space.spaceName}</td>
                       <td>
                         <button
                           type="button"
                           className="btn btn-danger"
                           onClick={() =>
-                            handleDeleteRestaurant(userId, restaurant._id)
+                            handleDeleteSpace(userId, space._id)
                           }
                         >
                           Delete

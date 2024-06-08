@@ -39,7 +39,7 @@ const spaceSchema = new mongoose.Schema({
       default: false,
     },
   },
-  photos: [{ type: String }], 
+  photos: [{ type: String , default:false}], 
 }, {
   collection: "Spaces"
 });
