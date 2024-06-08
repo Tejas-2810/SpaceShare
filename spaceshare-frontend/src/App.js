@@ -10,6 +10,7 @@ import Footer from "./components/footer/footer";
 import Dashboard from "./views/dashboard/dashboard";
 import RequireAuth from "./utils/RequireAuth";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import Contact from "./views/contact/contact";
 
 const ROLES = {
   USER: "user",
@@ -28,6 +29,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/contact" element={<Contact />} />
 
           {/* protect routes */}
           {/* user routes */}
