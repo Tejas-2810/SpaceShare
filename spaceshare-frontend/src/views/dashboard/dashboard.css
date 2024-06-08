@@ -7,7 +7,7 @@
   padding: 20px;
   background-color: #f8f9fa;
   align-items: flex-start;
-  margin-top: 60px; /* Adjust this value to match the height of your fixed header */
+  margin-top: 90px;
   width: 100%; /* Ensure the container takes full width */
 }
 
