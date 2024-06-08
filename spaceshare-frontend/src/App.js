@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-// import Home from "./views/home/home";
+import Home from "./views/home/home";
 import Navbar from "./components/navbar/navbar";
 import Signin from "./views/authentication/signin";
 import Signup from "./views/authentication/signup";
@@ -25,7 +25,7 @@ function App() {
         <Navbar />
         <Routes>
           {/* public routes */}
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Home />} /> 
           <Route path="/signin" element={<Signin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
