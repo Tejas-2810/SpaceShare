@@ -75,7 +75,6 @@ const Dashboard = () => {
           .then((response) => response)
           .catch((err) => err);
         setRdata(response.data);
-        console.log("PERFECT",rdata);
       } catch (error) {
         console.error("Error fetching Space data:", error);
       }
@@ -100,7 +99,6 @@ const Dashboard = () => {
           .then((response) => response)
           .catch((err) => err);
         setBdata(response.data);
-        console.log(bdata);
       } catch (error) {
         console.error("Error fetching Space data:", error);
       }
@@ -125,7 +123,6 @@ const Dashboard = () => {
           .then((response) => response)
           .catch((err) => err);
         setPdata(response.data);
-        console.log(pdata);
       } catch (error) {
         console.error("Error fetching Space data:", error);
       }
@@ -161,25 +158,23 @@ const Dashboard = () => {
   var gthree = [];
   if (
     rdata &&
-    rdata.message !== "No Spaces for the particular Space owner yet"
+    rdata.message !== 'No spaces for the particular space owner yet'
   ) {
-    console.log("pppppppp",rdata);
     gone = rdata.map((item) => {
       return { label: item.spaceName, y: item.averageRating || 1 };
     });
   } else {
-    gone = [{ label: "No Spaces", y: 1 }];
+    gone = [{ label: "No Spaces", y: 0 }];
   }
   if (
     bdata &&
-    bdata.message !== "No Spaces for the particular Space owner yet"
+    bdata.message !== 'No spaces for the particular space owner yet'
   ) {
-    console.log(bdata);
     gtwo = bdata.map((item) => {
       return { label: item.spaceName, y: item.numberOfBookings || 1 };
     });
   } else {
-    gtwo = [{ label: "No Spaces", y: 1 }];
+    gtwo = [{ label: "No Spaces", y: 0 }];
   }
   if (pdata) {
     gthree = [
@@ -194,8 +189,8 @@ const Dashboard = () => {
     ];
   } else {
     gthree = [
-      { label: "Paid Booking", y: 1 },
-      { label: "Free Booking", y: 1 },
+      { label: "Paid Booking", y: 0 },
+      { label: "Free Booking", y: 0 },
     ];
   }
 
@@ -209,7 +204,7 @@ const Dashboard = () => {
         type: "column",
         dataPoints: gone.map((item) => ({
           label: item.label,
-          y: item.y === 0 ? 1 : item.y,
+          y: item.y === 0 ? 0 : item.y,
         })),
       },
     ],
@@ -254,23 +249,13 @@ const Dashboard = () => {
         contactNumber:contactNumber,
         spaceType:type,
         seatingCapacity:seatingCapacity,
-        pricing:pricing},  // Assuming you want to send this too
+        pricing:pricing}, 
         userId:userId
       };
   
-      // form.append("data", JSON.stringify(jsonData));
-
-      // console.log(form, jsonData);
-  
-      // if (photos) {
-      //   form.append("photos", photos);
-      // }
   
       const addSpaceUrl = `${server_url}/api/spaces/createspaces`;
-      console.log(addSpaceUrl)
       const response = await axios.post(addSpaceUrl, data, { headers });
-
-      console.log("RESPONSE",response)
   
       if (response.status === 200 || response.status === 201) {
         // Handle success
