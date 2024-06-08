@@ -58,8 +58,7 @@ const Dashboard = () => {
     cancelRequestRef.current = new AbortController();
     const fetchData = async () => {
       const space_endpoint =
-        process.env.REACT_APP_PROFILE_ENDPOINT ||
-        "api/spaces/spaceratings";
+        process.env.REACT_APP_PROFILE_ENDPOINT || "api/spaces/spaceratings";
       const endpoint = `${server_url}/${space_endpoint}/${userId}`;
       try {
         const token = sessionStorage.getItem("token");
@@ -158,7 +157,7 @@ const Dashboard = () => {
   var gthree = [];
   if (
     rdata &&
-    rdata.message !== 'No spaces for the particular space owner yet'
+    rdata.message !== "No spaces for the particular space owner yet"
   ) {
     gone = rdata.map((item) => {
       return { label: item.spaceName, y: item.averageRating || 1 };
@@ -168,7 +167,7 @@ const Dashboard = () => {
   }
   if (
     bdata &&
-    bdata.message !== 'No spaces for the particular space owner yet'
+    bdata.message !== "No spaces for the particular space owner yet"
   ) {
     gtwo = bdata.map((item) => {
       return { label: item.spaceName, y: item.numberOfBookings || 1 };
@@ -219,48 +218,57 @@ const Dashboard = () => {
   // adding a space
   const handAddSpace = async (e) => {
     e.preventDefault();
-    if (!spaceName || !address || !pricing || !workingHours || !type || !contactNumber || !seatingCapacity) {
+    if (
+      !spaceName ||
+      !address ||
+      !pricing ||
+      !workingHours ||
+      !type ||
+      !contactNumber ||
+      !seatingCapacity
+    ) {
       alert("Please fill all the fields");
       return;
-    } 
-  
+    }
+
     const phoneNumberRegex = /^\d{3}[\s.-]?\d{3}[\s.-]?\d{4}$/;
     if (!phoneNumberRegex.test(contactNumber) || contactNumber.length !== 10) {
       alert("Please enter a valid phone number");
       return;
     }
-  
+
     if (Number(seatingCapacity) <= 0) {
       alert("Please enter a valid seating capacity");
       return;
     }
-  
+
     try {
       const token = sessionStorage.getItem("token");
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-  
+
       const form = new FormData();
       const data = {
-        data:{spaceName:spaceName,
-        spaceAddress: address,
-        operatingHours: workingHours,
-        contactNumber:contactNumber,
-        spaceType:type,
-        seatingCapacity:seatingCapacity,
-        pricing:pricing}, 
-        userId:userId
+        data: {
+          spaceName: spaceName,
+          spaceAddress: address,
+          operatingHours: workingHours,
+          contactNumber: contactNumber,
+          spaceType: type,
+          seatingCapacity: seatingCapacity,
+          pricing: pricing,
+        },
+        userId: userId,
       };
-  
-  
+
       const addSpaceUrl = `${server_url}/api/spaces/createspaces`;
       const response = await axios.post(addSpaceUrl, data, { headers });
-  
+
       if (response.status === 200 || response.status === 201) {
         // Handle success
         alert("Space added successfully");
-        navigate('/dashboard'); // Redirect or refresh the page, if needed
+        navigate("/dashboard"); // Redirect or refresh the page, if needed
       }
     } catch (error) {
       console.error("error in adding space: ", error);
@@ -287,13 +295,9 @@ const Dashboard = () => {
         // delete space in owner object
         const deleteUrl = `${server_url}/api/spaces/delete/${userId}/${spaceId}`;
         await axios.delete(deleteUrl, { headers: headers });
-        alert("Space deleted successfully!!")
+        alert("Space deleted successfully!!");
 
-        setSpaceDetails(
-          spaceDetails.filter(
-            (space) => space._id !== spaceId
-          )
-        );
+        setSpaceDetails(spaceDetails.filter((space) => space._id !== spaceId));
       } catch (error) {
         console.error("Failed to delete the Space:", error.message);
       }
@@ -344,7 +348,7 @@ const Dashboard = () => {
 
   return (
     <div className="cb">
-      <div className="row">
+      <div className="row" style={{ width: "100%" }}>
         <div className="col-md-6">
           <div className="row my-auto justify-content-evenly my-auto mx-3">
             <div className="card col-md-5">
@@ -500,9 +504,7 @@ const Dashboard = () => {
                         <button
                           type="button"
                           className="btn btn-danger"
-                          onClick={() =>
-                            handleDeleteSpace(userId, space._id)
-                          }
+                          onClick={() => handleDeleteSpace(userId, space._id)}
                         >
                           Delete
                         </button>
