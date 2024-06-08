@@ -1,14 +1,14 @@
 
 :root {
-  --background-color: #F1FAEE; /* Light Peach */
+  --background-color: #daf9fb; /* Light Peach */
   --wrapper-bg-color: #FFFFFF; /* Pure white for focus on form */
-  --tab-bg-color: #E9C46A; /* Powder Pink */
-  --tab-active-bg-color: #F4A261; /* Soft Coral */
+  --tab-bg-color: #7ff4ee; /* Powder Pink */
+  --tab-active-bg-color: #6190f4; /* Soft Coral */
   --input-bg-color: #FFFFFF; /* White for clarity in inputs */
   --input-border-color: #A8DADC; /* Pastel Blue */
   --input-focus-border-color: #2A9D8F; /* Creamy Mint */
   --error-color: #E63946; /* A more vibrant red for errors, to ensure visibility */
-  --button-bg-color: #2A9D8F; /* Creamy Mint */
+  --button-bg-color: #5c9cf1; /* Creamy Mint */
   --text-color: #457B9D; /* Slate Grey */
   --error-text-color: #E63946; /* Consistent with error color */
   --font-family: 'Rubik', sans-serif; /* Custom Google Font */
