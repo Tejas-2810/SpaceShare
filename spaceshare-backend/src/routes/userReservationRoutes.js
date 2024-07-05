@@ -16,7 +16,7 @@ router.delete(
 );
 
 router.post(
-  "/book/:userId",
+  "/book",
   reservationController.createReservation
 );
 

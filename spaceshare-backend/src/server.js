@@ -3,17 +3,12 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose"); 
 const { connectToDatabase } = require("./database/db"); 
-//const userRoutes = require("./routes/userRoutes"); 
 const authRoutes = require("./routes/authRoutes"); 
-// const newsletterRoutes = require("./routes/newsletterRoutes"); 
 const spaceRoutes = require("./routes/spaceRoutes"); 
-// const paymentRoutes = require("./routes/paymentRoutes");
 const userReservationRoutes = require("./routes/userReservationRoutes");
-// const discountRoutes = require("./routes/discountsRoutes");
-// const promotionRoutes = require("./routes/promotionRoutes");
-// const contactFormRoutes = require("./routes/contactFormRoutes");
+const contactFormRoutes = require("./routes/contactFormRoutes");
 const cookieParser = require("cookie-parser");
-// const { ensureUploadsDirectoryExists } = require("./init");
+const { ensureUploadsDirectoryExists } = require("./init");
 const checkAuth = require("./middleware/authMiddleware");
 
 
@@ -31,22 +26,17 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-//ensureUploadsDirectoryExists();
+ensureUploadsDirectoryExists();
 
 async function startServer() {
   try {
-    await connectToDatabase(); // Connect to the database
+    await connectToDatabase(); 
 
-    //app.use("/users", checkAuth, userRoutes); // Create a base URL for the user routes
-    app.use("/api/auth", authRoutes); // Create a base URL for the auth routes
-    //app.use("/api/newsletter", newsletterRoutes); // Create a base URL for the newsletter routes
-    app.use("/api/spaces", spaceRoutes); // Create a base URL for the restaurant routes
+    app.use("/api/auth", authRoutes); 
+    app.use("/api/spaces", spaceRoutes); 
     app.use("/api/user-reservation", checkAuth, userReservationRoutes);
-    // app.use("/api/payments", checkAuth, paymentRoutes);
-    // app.use("/api/discounts", discountRoutes);
-    // app.use("/api/promotions", promotionRoutes);
-    // app.use("/public/upload", express.static("public/upload"));
-    // app.use("/contact", contactFormRoutes);
+    app.use("/public/upload", express.static("public/upload"));
+    app.use("/contact", contactFormRoutes);
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);

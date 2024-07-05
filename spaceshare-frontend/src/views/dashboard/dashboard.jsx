@@ -25,11 +25,11 @@ const Dashboard = () => {
   const [spaceName, setSpaceName] = useState("");
   const [address, setAddress] = useState("");
   const [pricing, setPricing] = useState("");
-  const [type, setType] = useState("");
-  const [workingHours, setWorkingHours] = useState("");
+  const [spaceType, setSpaceType] = useState("");
+  const [checkInTime, setCheckInTime] = useState("");
+  const [checkOutTime, setCheckOutTime] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [seatingCapacity, setSeatingCapacity] = useState("");
-  const [menu, setMenu] = useState(null);
+  const [Capacity, setCapacity] = useState("");
   const [photos, setPhotos] = useState(null);
 
   useEffect(() => {
@@ -80,10 +80,10 @@ const Dashboard = () => {
     };
 
     const fetchData2 = async () => {
-      const resturant_endpoint =
+      const space_endpoint =
         process.env.REACT_APP_PROFILE_ENDPOINT ||
         "api/spaces/numberOfspacebookings";
-      const endpoint = `${server_url}/${resturant_endpoint}/${userId}`;
+      const endpoint = `${server_url}/${space_endpoint}/${userId}`;
       try {
         const token = sessionStorage.getItem("token");
         const headers = {
@@ -104,10 +104,10 @@ const Dashboard = () => {
     };
 
     const fetchData3 = async () => {
-      const resturant_endpoint =
+      const space_endpoint =
         process.env.REACT_APP_PROFILE_ENDPOINT ||
         "api/spaces/bookingpercentages";
-      const endpoint = `${server_url}/${resturant_endpoint}/${userId}`;
+      const endpoint = `${server_url}/${space_endpoint}/${userId}`;
       try {
         const token = sessionStorage.getItem("token");
         const headers = {
@@ -211,21 +211,21 @@ const Dashboard = () => {
 
   // to upload file
   const handleFile = (type, e) => {
-    const file = e.target.files[0];
-    setPhotos(file);
+    setPhotos([...e.target.files]);
   };
 
   // adding a space
   const handAddSpace = async (e) => {
     e.preventDefault();
     if (
-      !spaceName ||
-      !address ||
-      !pricing ||
-      !workingHours ||
-      !type ||
-      !contactNumber ||
-      !seatingCapacity
+      !spaceName || spaceName === "" ||
+      !address || address === "" ||
+      !pricing || pricing === "" ||
+      !checkInTime || checkInTime === "" ||
+      !checkOutTime || checkOutTime === "" ||
+      !spaceType || spaceType === "" ||
+      !contactNumber || contactNumber === "" ||
+      !Capacity || Capacity === ""
     ) {
       alert("Please fill all the fields");
       return;
@@ -237,7 +237,7 @@ const Dashboard = () => {
       return;
     }
 
-    if (Number(seatingCapacity) <= 0) {
+    if (Number(Capacity) <= 0) {
       alert("Please enter a valid seating capacity");
       return;
     }
@@ -250,26 +250,40 @@ const Dashboard = () => {
 
       const form = new FormData();
       const data = {
-        data: {
           spaceName: spaceName,
           spaceAddress: address,
-          operatingHours: workingHours,
-          contactNumber: contactNumber,
-          spaceType: type,
-          seatingCapacity: seatingCapacity,
           pricing: pricing,
-        },
-        userId: userId,
+          checkInTime: checkInTime,
+          checkOutTime: checkOutTime,
+          contactNumber: contactNumber,
+          spaceType: spaceType,
+          Capacity: Capacity
       };
+      if (photos && photos.length) {
+        for (let i = 0; i < photos.length; i++) {
+          form.append('photos', photos[i]); 
+        }
+      }
+      form.append('data', JSON.stringify(data));
+      form.append('userId', userId);
 
       const addSpaceUrl = `${server_url}/api/spaces/createspaces`;
-      const response = await axios.post(addSpaceUrl, data, { headers });
+      const response = await axios.post(addSpaceUrl, form, { headers })
+      .then((response) => response)
+        .catch((err) => err);
 
       if (response.status === 200 || response.status === 201) {
         // Handle success
         alert("Space added successfully");
-        navigate("/dashboard"); // Redirect or refresh the page, if needed
+        navigate("/dashboard"); 
       }
+      if (isAxiosError(response)) {
+        alert("Error adding restaurant");
+        console.error("Error adding restaurant:", response.message);
+        return;
+      }
+
+      console.log("response: ", response.data);
     } catch (error) {
       console.error("error in adding space: ", error);
       alert("Error adding Space");
@@ -417,21 +431,32 @@ const Dashboard = () => {
                 <label htmlFor="type">Space Type</label>
                 <input
                   type="text"
-                  value={type}
-                  onInput={(e) => setType(e.target.value)}
+                  value={spaceType}
+                  onInput={(e) => setSpaceType(e.target.value)}
                   className="form-control"
                   id="type"
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="workingHours">Availability</label>
+                <label htmlFor="checkInTime">Check-In Time</label>
                 <input
                   type="text"
-                  placeholder="Opening to closing time"
-                  onInput={(e) => setWorkingHours(e.target.value)}
-                  value={workingHours}
+                  placeholder="Check-In Time to the Space"
+                  onInput={(e) => setCheckInTime(e.target.value)}
+                  value={checkInTime}
                   className="form-control"
-                  id="workingHours"
+                  id="checkInTime"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="checkOutTime">Check-Out Time</label>
+                <input
+                  type="text"
+                  placeholder="Check-Out Time to the Space"
+                  onInput={(e) => setCheckOutTime(e.target.value)}
+                  value={checkOutTime}
+                  className="form-control"
+                  id="checkOutTime"
                 />
               </div>
               <div className="form-group">
@@ -456,13 +481,13 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="form-group">
-                <label htmlFor="seatingCapacity">Seating Capacity</label>
+                <label htmlFor="Capacity">Space Capacity</label>
                 <input
                   type="text"
                   className="form-control"
-                  value={seatingCapacity}
-                  onInput={(e) => setSeatingCapacity(e.target.value)}
-                  id="seatingCapacity"
+                  value={Capacity}
+                  onInput={(e) => setCapacity(e.target.value)}
+                  id="Capacity"
                 />
               </div>
               <div className="form-group">
@@ -472,6 +497,7 @@ const Dashboard = () => {
                   onChange={(e) => handleFile("photos", e)}
                   className="form-control-file"
                   id="photos"
+                  multiple
                 />
               </div>
               <div className="form-group text-center">

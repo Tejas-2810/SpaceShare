@@ -17,7 +17,11 @@ const spaceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  operatingHours: {
+  checkInTime: {
+    type: String,
+    required: true,
+  },
+  checkOutTime: {
     type: String,
     required: true,
   },
@@ -25,19 +29,9 @@ const spaceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  seatingCapacity: {
+  Capacity: {
     type: Number,
     required: true,
-  },
-  features: {
-    outdoorSeating: {
-      type: Boolean,
-      default: false,
-    },
-    wifiAvailable: {
-      type: Boolean,
-      default: false,
-    },
   },
   photos: [{ type: String , default:false}], 
 }, {

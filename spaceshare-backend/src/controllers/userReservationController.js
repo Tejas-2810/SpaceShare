@@ -21,7 +21,6 @@ exports.getReservationHistory = async (req, res) => {
 
 exports.deleteReservation = async (req, res) => {
   const reservationId = req.params.reservationId;
-  console.log("shit");
 
   try {
     const reservation = await Reservation.findByIdAndDelete(reservationId);
@@ -56,13 +55,9 @@ exports.postReservationReview = async (req, res) => {
 };
 
 exports.createReservation = async (req, res) => {
-    userID=req.params.userId
-    const { spaceID, reservationDate, reservationTime, noOfGuests } =
+    const { spaceID, reservationDate, reservationTime, noOfGuests, userID } =
     req.body;
-    
-//   const { restaurantID, reservationDate, reservationTime, noOfGuests, userID } =
-//     req.body;
-
+  
 console.log(spaceID, reservationDate, reservationTime, noOfGuests)
 
   if (

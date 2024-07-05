@@ -6,6 +6,7 @@ import Signin from "./views/authentication/signin";
 import Signup from "./views/authentication/signup";
 import ForgotPassword from "./views/authentication/forgotPassword";
 import ResetPassword from "./views/authentication/resetPassword";
+import Reserve from "./views/reservation/reserve";
 import Faq from "./views/faq/faq";
 import Footer from "./components/footer/footer";
 import Dashboard from "./views/dashboard/dashboard";
@@ -49,6 +50,7 @@ function App() {
             }
           ></Route>
           <Route path="/faq" element={<Faq />} />
+          <Route path="/reserve" element={<Reserve />} />
         </Routes>
       </Router>
       <Footer className="b" />

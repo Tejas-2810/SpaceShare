@@ -1,0 +1,113 @@
+.cfooter{
+    background-color: rgb(8, 37, 71);
+}
+.card-reserve{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+}
+
+.main-content {
+    padding-top: 100px; 
+}
+
+.rating{
+    background-color: #029221 !important;
+}
+.menu{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /* padding: 20px; */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    /* max-width: 2rem; */
+    width: 30%;
+    cursor: pointer;
+}
+
+.review{
+
+    margin-top: 3rem !important;
+
+}
+
+@media (max-width: 767px) {
+    /* Add padding for mobile screens */
+    .fcontainer {
+        margin-left: 25% !important;
+    }
+}
+
+.rc{
+    padding: 2%;
+}
+
+.rb{
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+
+/* https://bbbootstrap.com/snippets/bootstrap-rate-your-experience-template-star-ratings-30972576 */
+
+.rate{
+
+	border-bottom-right-radius: 12px;
+	border-bottom-left-radius: 12px;
+
+}
+
+.bi-star-fill {
+    color: #FFD600;
+
+}
+
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center
+}
+
+.rating>input {
+    display: none
+}
+
+.rating>label {
+    position: relative;
+    width: 1em;
+    font-size: 30px;
+    font-weight: 300;
+    color: #FFD600;
+    cursor: pointer
+}
+
+.rating>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+    opacity: 1 !important
+}
+
+.rating>input:checked~label:before {
+    opacity: 1
+}
+
+.rating:hover>input:checked~label:before {
+    opacity: 0.4
+}
+
+.review-text{
+    margin-left: 5%;
+}
+
+.control-p{
+    min-width: 20rem !important;
+}
