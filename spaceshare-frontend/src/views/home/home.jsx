@@ -259,6 +259,15 @@ const Home = () => {
       </div>
       <section className="pt-5 pb-5">
         <div className="container">
+        <div className="container slide">
+        <h2>Featured Spaces</h2>
+        <Slide />
+      </div>
+
+      <div className="container slide">
+        <h2>Featured Spaces</h2>
+        <Slide />
+      </div>
           <div className="row">
             <div className="col-6">
               <h3 className="mb-3">Top Spaces This Month</h3>
@@ -284,7 +293,7 @@ const Home = () => {
                     <div>
                       <h5 className="card-title">Halifax Specials</h5>
                       <p className="card-text">
-                      Halifax Highlights: Dive into a diverse array of destinations and genuine experiences in the heart of Halifax.
+                      Explore Halifax Spaces: Enjoy a wide variety of unique and authentic spaces in your favorite city, Halifax.
                       </p>
                     </div>
                   </div>
@@ -299,7 +308,7 @@ const Home = () => {
                     <div>
                       <h5 className="card-title">Barbie's Dream Palace</h5>
                       <p className="card-text">
-                      A Fairytale Experience: Step into a world of dreams and elegance.
+                      Dream Spaces: Experience the ultimate in luxury and comfort with our premium space listings.
                       </p>
                     </div>
                   </div>
@@ -314,7 +323,7 @@ const Home = () => {
                     <div>
                       <h5 className="card-title">Barbeque Special</h5>
                       <p className="card-text">
-                      Urban Grill Adventures: Discover must-visit spots in our city with exclusive discounts (Special Offer).
+                      Exclusive Space Offers: Discover must-visit spaces in our city at a discounted rate (Special Offer).
                       </p>
                     </div>
                   </div>
@@ -329,7 +338,7 @@ const Home = () => {
                     <div>
                       <h5 className="card-title">Cabins</h5>
                       <p className="card-text">
-                      Cozy Retreats: Enjoy your happy hours with a stunning downtown view in a comfortable and private space.
+                      Cozy Corners: Enjoy your happy hours with a beautiful downtown view in comfortable and private spaces.
                       </p>
                     </div>
                   </div>
@@ -344,7 +353,7 @@ const Home = () => {
                     <div>
                       <h5 className="card-title">Amazing views</h5>
                       <p className="card-text">
-                      Skyline Escapes: Explore the latest additions to our selection of breathtaking spaces.
+                      Stunning Spaces: Explore the latest additions to our collection of amazing view spaces.
                       </p>
                     </div>
                   </div>
@@ -359,7 +368,7 @@ const Home = () => {
                     <div>
                       <h5 className="card-title">Countryside</h5>
                       <p className="card-text">
-                      Rustic Flavors: Savor a variety of meats at our new location, now at discounted prices.
+                      Rustic Retreats: Experience the charm of the countryside with a variety of unique spaces at discounted prices.
                       </p>
                     </div>
                   </div>
@@ -374,7 +383,7 @@ const Home = () => {
                     <div>
                       <h5 className="card-title">Tree house</h5>
                       <p className="card-text">
-                      Ocean's Bounty: Treat yourself to freshly prepared seafood from the ocean at Mehfil.
+                      Elevated Experiences: Treat yourself to unique treehouse spaces, offering a fresh perspective.
                       </p>
                     </div>
                   </div>
@@ -389,7 +398,7 @@ const Home = () => {
                     <div>
                       <h5 className="card-title">Domes</h5>
                       <p className="card-text">
-                      Green Delight: Discover the benefits of a plant-based diet with a Dhaba-style twist.
+                      Eco-Friendly Escapes: Discover the benefits of staying in our eco-friendly dome spaces with a touch of rustic charm.
                       </p>
                     </div>
                   </div>
@@ -397,13 +406,23 @@ const Home = () => {
               </div>
             </div>
           </div>
+
+          
         </section>
-      </section>
-      <div className="container slide">
+        <div className="container slide">
         <h2>Featured Spaces</h2>
         <Slide />
       </div>
+        
+      </section>
+      
+      
+
+      
     </div>
+
+    
+    
   );
 };
 

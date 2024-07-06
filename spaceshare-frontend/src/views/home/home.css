@@ -101,6 +101,7 @@
 }
 .hcontainer{
     margin-top: 0 !important;
+    background-color: cornsilk;
 }
 
 .quote {
@@ -170,6 +171,8 @@ transform: rotate(10deg);
 .form-control-h::placeholder{
 color: white !important;
 }
+
+
 
 .img-top {
     width: 100% !important;
