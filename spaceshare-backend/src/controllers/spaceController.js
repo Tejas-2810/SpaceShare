@@ -129,8 +129,9 @@ exports.getTopSpaces = async (req, res) => {
 exports.getTopSpacesBySeatingCapacity = async (req, res) => {
   try {
     const top5Spaces = await Space.find()
-      .sort({ seatingCapacity: -1 })
+      .sort({ Capacity: -1 })
       .limit(5);
+      console.log("MAIN",top5Spaces)
 
     res.status(200).json(top5Spaces);
   } catch (error) {

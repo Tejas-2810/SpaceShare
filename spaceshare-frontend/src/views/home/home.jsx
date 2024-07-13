@@ -1,24 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./home.css";
-import { Button } from "react-bootstrap";
 import Slide from "../../components/slider/slide";
+import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios, { isAxiosError } from 'axios';
+import axios from 'axios';
 import { useNavigate, createSearchParams } from "react-router-dom";
+import { FaHome, FaHotel, FaWater, FaPlane, FaSwimmingPool, FaTractor } from 'react-icons/fa';
+import { GiFarmTractor, GiTreehouse, GiBarn } from 'react-icons/gi';
 
 const Home = () => {
-  const [cuisine, setCuisine] = useState("Space Type");
+  const [type, setType] = useState("Space Type");
   const [location, setLocation] = useState("Space Location");
   const [keyword, setKeyword] = useState("");
   const [topSpaces, setTopSpaces] = useState([]); 
+  const [latestSpaces, setLatestSpaces] = useState([]); 
 
   const navigate = useNavigate();
   const cancelRequestRef = useRef(null);
-  
+
   useEffect(() => {
-    
     cancelRequestRef.current?.abort();
     cancelRequestRef.current = new AbortController();
+    
     const fetchTopSpaces = async () => {
       try {
         const server_url = process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
@@ -30,41 +33,70 @@ const Home = () => {
             'Authorization': `Bearer ${token}`
         }
         const endpoint = `${server_url}/${space_endpoint}`;
-        const response = await axios.get(endpoint, { signal: cancelRequestRef.current?.signal, headers: headers})
-        .then((response) => response)
-        .catch((err) => err);
-
+        const response = await axios.get(endpoint, { signal: cancelRequestRef.current?.signal, headers: headers});
         setTopSpaces(response.data);
       } catch (error) { 
-        console.error("Error fetching restaurant data:",error);
+        console.error("Error fetching space data:",error);
+      }
+    };
+
+    const fetchLatestSpaces = async () => {
+      try {
+        const server_url = process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
+        const space_endpoint = process.env.REACT_APP_PROFILE_ENDPOINT || "api/Spaces/topseatingspaces";
+      
+        const token = sessionStorage.getItem("token");
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+        const endpoint = `${server_url}/${space_endpoint}`;
+        const response = await axios.get(endpoint, { signal: cancelRequestRef.current?.signal, headers: headers});
+        setLatestSpaces(response.data);
+      } catch (error) { 
+        console.error("Error fetching space data:",error);
       }
     };
 
     fetchTopSpaces(); 
+    fetchLatestSpaces();
 
   }, []);
-  
-    const restaurantid = (id) => {
-      navigate({
-        pathname: "/reserve",
-        search: createSearchParams({
-          id : id,
-        }).toString(),
-      });
-    };
 
-  const topSpacesList = topSpaces?.map((restaurant) => {
+  const spaceid = (id) => {
+    navigate({
+      pathname: "/reserve",
+      search: createSearchParams({
+        id : id,
+      }).toString(),
+    });
+  };
+
+  const topSpacesList = topSpaces?.map((space) => {
     return (
-      <div className="col-md-4 mb-3 home-c " >
-        <div className="card " onClick={() => restaurantid(restaurant._id)}>
-          <img  className="img-top " alt="safdf" src={restaurant.photos[0]} />
+      <div className="col-md-4 mb-3 home-c" key={space._id}>
+        <div className="card fixed-size-card" onClick={() => spaceid(space._id)}>
+          <img className="img-top fixed-size-img" alt="space" src={space.photos[0]} />
           <div className="card-body">
-            <div className="d-flex border-bottom">
-            <h4 className="card-title m-0 col-9">{restaurant.restaurantName}</h4>
-            <p> {restaurant.operatingHours}</p>
-            </div>
-            <p className="card-text m-0 p-0"><b>Address : </b>{restaurant.spaceAddress}</p>
-            <div className="d-flex"><p className="card-text "> <b>Cost:    </b> {restaurant.pricing} </p></div>
+            <h4 className="card-title">{space.spaceName}</h4>
+            <p className="card-text"><b>Address:</b> {space.spaceAddress}</p>
+            <p className="card-text"><b>Cost:</b> {space.pricing}</p>
+          </div>
+        </div>
+      </div>
+    );
+  });
+
+  const latestSpacesList = latestSpaces?.map((space) => {
+    return (
+      <div className="col-md-4 mb-3 home-c" key={space._id}>
+        <div className="card fixed-size-card" onClick={() => spaceid(space._id)}>
+          <img className="img-top fixed-size-img" alt="space" src={space.photos[0]} />
+          <div className="card-body">
+            <h4 className="card-title">{space.spaceName}</h4>
+            <p className="card-text"><b>Address:</b> {space.spaceAddress}</p>
+            <p className="card-text"><b>Cost:</b> {space.pricing}</p>
+            <p className="card-text"><b>Capacity:</b>{space.Capacity}</p>
           </div>
         </div>
       </div>
@@ -75,7 +107,7 @@ const Home = () => {
     navigate({
       pathname: "/search",
       search: createSearchParams({
-        c: cuisine,
+        t: type,
         l: location,
         K: keyword,
       }).toString(),
@@ -86,8 +118,8 @@ const Home = () => {
     setLocation(e.target.value);
   };
 
-  const handleCuisineChange = (e) => {
-    setCuisine(e.target.options[e.target.selectedIndex].text);
+  const handleTypeChange = (e) => {
+    setType(e.target.options[e.target.selectedIndex].text);
   };
 
   const handleKeywordChange = (e) => {
@@ -103,98 +135,11 @@ const Home = () => {
     }
   };
 
-  const handleBuffetClick = () => {
-    // Directly navigate without updating the component state
+  const iconClickHandler = (home) => {
     navigate({
       pathname: "/search",
       search: createSearchParams({
-        c: "Indian", // Directly set the cuisine to Indian
-        l: location,
-        K: keyword,
-      }).toString(),
-    });
-  };
-
-  const handleVegClick = () => {
-    // Directly navigate without updating the component state
-    navigate({
-      pathname: "/search",
-      search: createSearchParams({
-        c: cuisine, // Directly set the cuisine to Indian
-        l: location,
-        K: "Mirchi Tandoor",
-      }).toString(),
-    });
-  };
-
-  const handleMustVisitClick = () => {
-    // Directly navigate without updating the component state
-    navigate({
-      pathname: "/search",
-      search: createSearchParams({
-        c: "Italian", // Directly set the cuisine to Indian
-        l: location,
-        K: keyword,
-      }).toString(),
-    });
-  };
-
-  const handleHappyHoursClick = () => {
-    // Directly navigate without updating the component state
-    navigate({
-      pathname: "/search",
-      search: createSearchParams({
-        c: cuisine, // Directly set the cuisine to Indian
-        l: location,
-        K: "Tawa Grill",
-      }).toString(),
-    });
-  };
-
-  const handleNewSpacesClick = () => {
-    // Directly navigate without updating the component state
-    navigate({
-      pathname: "/search",
-      search: createSearchParams({
-        c: cuisine, // Directly set the cuisine to Indian
-        l: location,
-        K: "Marthas",
-      }).toString(),
-    });
-  };
-
-  const handleMeatestClick = () => {
-    // Directly navigate without updating the component state
-    navigate({
-      pathname: "/search",
-      search: createSearchParams({
-        c: cuisine, // Directly set the cuisine to Indian
-        l: location,
-        K: "Paradise Restaurant",
-      }).toString(),
-    });
-  };
-
-  const handleSeaFoodClick = () => {
-    // Directly navigate without updating the component state
-    navigate({
-      pathname: "/search",
-      search: createSearchParams({
-        c: cuisine, // Directly set the cuisine to Indian
-        l: location,
-        K: "Mehfil Restaurant",
-      }).toString(),
-    });
-  };
-
-  const handleVeganFoodClick = () => {
-    // Directly navigate without updating the component state
-    navigate({
-      pathname: "/search",
-      search: createSearchParams({
-        c: cuisine, // Directly set the cuisine to Indian
-        l: location,
-        K: "Santosh Dhaba",
+        home: home,
       }).toString(),
     });
   };
@@ -225,7 +170,7 @@ const Home = () => {
                   color: "white",
                   borderRadius: "1rem",
                 }}
-                onChange={handleCuisineChange}
+                onChange={handleTypeChange}
               >
                 <option>Space Type</option>
                 <option>Tree House</option>
@@ -251,26 +196,59 @@ const Home = () => {
                 <option value="San Francisco">San Francisco</option>
               </select>
             </form>
-            <p className="quote text-center" style={{ fontSize: "3vw" }}>
-            Uncover unique spots and authentic places in your favorite cities like Halifax and many more....”{" "}
+            <div className="icon-container">
+              <div className="icon" onClick={() => iconClickHandler('hotel')}>
+                <FaHotel size={40} color="white" />
+                <span>Hotel</span>
+              </div>
+              <div className="icon" onClick={() => iconClickHandler('lakefront')}>
+                <FaWater size={40} color="white" />
+                <span>Lakefront</span>
+              </div>
+              <div className="icon" onClick={() => iconClickHandler('amazing_destinations')}>
+                <FaPlane size={40} color="white" />
+                <span>Amazing Destinations</span>
+              </div>
+              <div className="icon" onClick={() => iconClickHandler('beautiful_pools')}>
+                <FaSwimmingPool size={40} color="white" />
+                <span>Beautiful Pools</span>
+              </div>
+              <div className="icon" onClick={() => iconClickHandler('countryside')}>
+                <FaTractor size={40} color="white" />
+                <span>Countryside</span>
+              </div>
+              <div className="icon" onClick={() => iconClickHandler('tree_houses')}>
+                <GiTreehouse size={40} color="white" />
+                <span>Tree Houses</span>
+              </div>
+              <div className="icon" onClick={() => iconClickHandler('halifax_specials')}>
+                <FaHome size={40} color="white" />
+                <span>Halifax Specials</span>
+              </div>
+              <div className="icon" onClick={() => iconClickHandler('farms')}>
+                <GiFarmTractor size={40} color="white" />
+                <span>Farms</span>
+              </div>
+              <div className="icon" onClick={() => iconClickHandler('space_share_special')}>
+                <GiBarn size={40} color="white" />
+                <span>SpaceShare Special</span>
+              </div>
+            </div>
+            <p className="quote text-center" style={{ fontSize: "2.5vw" }}>
+              Uncover unique spots and authentic places in your favorite cities like Halifax and many more....”{" "}
             </p>
           </div>
         </div>
       </div>
       <section className="pt-5 pb-5">
         <div className="container">
-        <div className="container slide">
-        <h2>Featured Spaces</h2>
-        <Slide />
-      </div>
-
-      <div className="container slide">
-        <h2>Featured Spaces</h2>
-        <Slide />
-      </div>
+          <div className="container slide">
+            <h2 className="mb-3">Featured Spaces</h2>
+            <Slide />
+          </div>
           <div className="row">
             <div className="col-6">
-              <h3 className="mb-3">Top Spaces This Month</h3>
+              <h2 className="mb-3">Top Spaces in this Month</h2>
             </div>
             <div className="col-12">
               <div className="row">
@@ -280,149 +258,15 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section>
-        <section className="pt-5 pb-5">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-3 my-3 ">
-                <div
-                  className="card border  border-3 border-warning rounded-lg shadow-lg type"
-                  onClick={handleBuffetClick} // Using the new function here
-                >
-                  <div className="card-body  d-flex flex-row">
-                    <div>
-                      <h5 className="card-title">Halifax Specials</h5>
-                      <p className="card-text">
-                      Explore Halifax Spaces: Enjoy a wide variety of unique and authentic spaces in your favorite city, Halifax.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 my-3 ">
-                <div className="card border border-3 border-warning rounded-lg shadow-lg type">
-                  <div
-                    className="card-body d-flex flex-row"
-                    onClick={handleVegClick}
-                  >
-                    <div>
-                      <h5 className="card-title">Barbie's Dream Palace</h5>
-                      <p className="card-text">
-                      Dream Spaces: Experience the ultimate in luxury and comfort with our premium space listings.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 my-3 ">
-                <div className="card border border-3 border-warning rounded-lg shadow-lg type">
-                  <div
-                    className="card-body d-flex flex-row"
-                    onClick={handleMustVisitClick}
-                  >
-                    <div>
-                      <h5 className="card-title">Barbeque Special</h5>
-                      <p className="card-text">
-                      Exclusive Space Offers: Discover must-visit spaces in our city at a discounted rate (Special Offer).
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 my-3 ">
-                <div className="card border border-3 border-warning rounded-lg shadow-lg type">
-                  <div
-                    className="card-body d-flex flex-row"
-                    onClick={handleHappyHoursClick}
-                  >
-                    <div>
-                      <h5 className="card-title">Cabins</h5>
-                      <p className="card-text">
-                      Cozy Corners: Enjoy your happy hours with a beautiful downtown view in comfortable and private spaces.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 my-3 ">
-                <div className="card border border-3 border-warning rounded-lg shadow-lg type">
-                  <div
-                    className="card-body d-flex flex-row"
-                    onClick={handleNewSpacesClick}
-                  >
-                    <div>
-                      <h5 className="card-title">Amazing views</h5>
-                      <p className="card-text">
-                      Stunning Spaces: Explore the latest additions to our collection of amazing view spaces.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 my-3 ">
-                <div className="card border border-3 border-warning rounded-lg shadow-lg type">
-                  <div
-                    className="card-body d-flex flex-row"
-                    onClick={handleMeatestClick}
-                  >
-                    <div>
-                      <h5 className="card-title">Countryside</h5>
-                      <p className="card-text">
-                      Rustic Retreats: Experience the charm of the countryside with a variety of unique spaces at discounted prices.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 my-3 ">
-                <div className="card border border-3 border-warning rounded-lg shadow-lg type">
-                  <div
-                    className="card-body d-flex flex-row"
-                    onClick={handleSeaFoodClick}
-                  >
-                    <div>
-                      <h5 className="card-title">Tree house</h5>
-                      <p className="card-text">
-                      Elevated Experiences: Treat yourself to unique treehouse spaces, offering a fresh perspective.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 my-3 ">
-                <div className="card border border-3 border-warning rounded-lg shadow-lg type">
-                  <div
-                    className="card-body d-flex flex-row"
-                    onClick={handleVeganFoodClick}
-                  >
-                    <div>
-                      <h5 className="card-title">Domes</h5>
-                      <p className="card-text">
-                      Eco-Friendly Escapes: Discover the benefits of staying in our eco-friendly dome spaces with a touch of rustic charm.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+        <div className="container">
+          <h2 className="mb-3">Top Spaces with Seating Capacity</h2>
+          <div className="row">
+            {latestSpacesList}
           </div>
+        </div>
 
-          
-        </section>
-        <div className="container slide">
-        <h2>Featured Spaces</h2>
-        <Slide />
-      </div>
-        
-      </section>
-      
-      
-
-      
     </div>
-
-    
-    
   );
 };
 
