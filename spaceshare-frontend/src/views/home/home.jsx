@@ -197,39 +197,39 @@ const Home = () => {
               </select>
             </form>
             <div className="icon-container">
-              <div className="icon" onClick={() => iconClickHandler('hotel')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('hotel')}>
                 <FaHotel size={40} color="white" />
                 <span>Hotel</span>
               </div>
-              <div className="icon" onClick={() => iconClickHandler('lakefront')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('lakefront')}>
                 <FaWater size={40} color="white" />
                 <span>Lakefront</span>
               </div>
-              <div className="icon" onClick={() => iconClickHandler('amazing_destinations')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('amazing_destinations')}>
                 <FaPlane size={40} color="white" />
                 <span>Amazing Destinations</span>
               </div>
-              <div className="icon" onClick={() => iconClickHandler('beautiful_pools')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('beautiful_pools')}>
                 <FaSwimmingPool size={40} color="white" />
                 <span>Beautiful Pools</span>
               </div>
-              <div className="icon" onClick={() => iconClickHandler('countryside')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('countryside')}>
                 <FaTractor size={40} color="white" />
                 <span>Countryside</span>
               </div>
-              <div className="icon" onClick={() => iconClickHandler('tree_houses')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('tree_houses')}>
                 <GiTreehouse size={40} color="white" />
                 <span>Tree Houses</span>
               </div>
-              <div className="icon" onClick={() => iconClickHandler('halifax_specials')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('halifax_specials')}>
                 <FaHome size={40} color="white" />
                 <span>Halifax Specials</span>
               </div>
-              <div className="icon" onClick={() => iconClickHandler('farms')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('farms')}>
                 <GiFarmTractor size={40} color="white" />
                 <span>Farms</span>
               </div>
-              <div className="icon" onClick={() => iconClickHandler('space_share_special')}>
+              <div className="icon" onClick={(handleSubmit) => iconClickHandler('space_share_special')}>
                 <GiBarn size={40} color="white" />
                 <span>SpaceShare Special</span>
               </div>
