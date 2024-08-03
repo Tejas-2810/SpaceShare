@@ -16,10 +16,13 @@ const Navb = () => {
         navigate("/signin");
         break;
       case "3":
-          navigate("/contact");
-          break;
+        navigate("/contact");
+        break;
       case "4":
         navigate("/faq");
+        break;
+      case "5":
+        navigate("/history");
         break;
       default:
         navigate("/");
@@ -43,12 +46,15 @@ const Navb = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav ">
         <Nav className="m-4 h6 text-center ">
-        <Nav.Link onClick={() => redirect("3")} className="tw">
+          <Nav.Link onClick={() => redirect("3")} className="tw">
             Contact
           </Nav.Link>
 
           <Nav.Link onClick={() => redirect("4")} className="tw">
             FAQ
+          </Nav.Link>
+          <Nav.Link onClick={() => redirect("5")} className="tw">
+            MyBookings
           </Nav.Link>
           {!isSessionValid() ? (
             <Nav.Link onClick={() => redirect("1")} className="tw">
