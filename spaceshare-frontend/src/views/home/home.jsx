@@ -3,17 +3,24 @@ import "./home.css";
 import Slide from "../../components/slider/slide";
 import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from 'axios';
+import axios from "axios";
 import { useNavigate, createSearchParams } from "react-router-dom";
-import { FaHome, FaHotel, FaWater, FaPlane, FaSwimmingPool, FaTractor } from 'react-icons/fa';
-import { GiFarmTractor, GiTreehouse, GiBarn } from 'react-icons/gi';
+import {
+  FaHome,
+  FaHotel,
+  FaWater,
+  FaPlane,
+  FaSwimmingPool,
+  FaTractor,
+} from "react-icons/fa";
+import { GiFarmTractor, GiTreehouse, GiBarn } from "react-icons/gi";
 
 const Home = () => {
-  const [type, setType] = useState("Space Type");
-  const [location, setLocation] = useState("Space Location");
+  const [type, setType] = useState("");
+  const [location, setLocation] = useState("");
   const [keyword, setKeyword] = useState("");
-  const [topSpaces, setTopSpaces] = useState([]); 
-  const [latestSpaces, setLatestSpaces] = useState([]); 
+  const [topSpaces, setTopSpaces] = useState([]);
+  const [latestSpaces, setLatestSpaces] = useState([]);
 
   const navigate = useNavigate();
   const cancelRequestRef = useRef(null);
@@ -21,53 +28,63 @@ const Home = () => {
   useEffect(() => {
     cancelRequestRef.current?.abort();
     cancelRequestRef.current = new AbortController();
-    
+
     const fetchTopSpaces = async () => {
       try {
-        const server_url = process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
-        const space_endpoint = process.env.REACT_APP_PROFILE_ENDPOINT || "api/Spaces/topSpaces";
-      
+        const server_url =
+          process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
+        const space_endpoint =
+          process.env.REACT_APP_PROFILE_ENDPOINT || "api/Spaces/topSpaces";
+
         const token = sessionStorage.getItem("token");
         const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        };
         const endpoint = `${server_url}/${space_endpoint}`;
-        const response = await axios.get(endpoint, { signal: cancelRequestRef.current?.signal, headers: headers});
+        const response = await axios.get(endpoint, {
+          signal: cancelRequestRef.current?.signal,
+          headers: headers,
+        });
         setTopSpaces(response.data);
-      } catch (error) { 
-        console.error("Error fetching space data:",error);
+      } catch (error) {
+        console.error("Error fetching space data:", error);
       }
     };
 
     const fetchLatestSpaces = async () => {
       try {
-        const server_url = process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
-        const space_endpoint = process.env.REACT_APP_PROFILE_ENDPOINT || "api/Spaces/topseatingspaces";
-      
+        const server_url =
+          process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
+        const space_endpoint =
+          process.env.REACT_APP_PROFILE_ENDPOINT ||
+          "api/Spaces/topseatingspaces";
+
         const token = sessionStorage.getItem("token");
         const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        };
         const endpoint = `${server_url}/${space_endpoint}`;
-        const response = await axios.get(endpoint, { signal: cancelRequestRef.current?.signal, headers: headers});
+        const response = await axios.get(endpoint, {
+          signal: cancelRequestRef.current?.signal,
+          headers: headers,
+        });
         setLatestSpaces(response.data);
-      } catch (error) { 
-        console.error("Error fetching space data:",error);
+      } catch (error) {
+        console.error("Error fetching space data:", error);
       }
     };
 
-    fetchTopSpaces(); 
+    fetchTopSpaces();
     fetchLatestSpaces();
-
   }, []);
 
   const spaceid = (id) => {
     navigate({
       pathname: "/reserve",
       search: createSearchParams({
-        id : id,
+        id: id,
       }).toString(),
     });
   };
@@ -75,12 +92,23 @@ const Home = () => {
   const topSpacesList = topSpaces?.map((space) => {
     return (
       <div className="col-md-4 mb-3 home-c" key={space._id}>
-        <div className="card fixed-size-card" onClick={() => spaceid(space._id)}>
-          <img className="img-top fixed-size-img" alt="space" src={space.photos[0]} />
+        <div
+          className="card fixed-size-card"
+          onClick={() => spaceid(space._id)}
+        >
+          <img
+            className="img-top fixed-size-img"
+            alt="space"
+            src={space.photos[0]}
+          />
           <div className="card-body">
             <h4 className="card-title">{space.spaceName}</h4>
-            <p className="card-text"><b>Address:</b> {space.spaceAddress}</p>
-            <p className="card-text"><b>Cost:</b> {space.pricing}</p>
+            <p className="card-text">
+              <b>Address:</b> {space.spaceAddress}
+            </p>
+            <p className="card-text">
+              <b>Cost:</b> {space.pricing}
+            </p>
           </div>
         </div>
       </div>
@@ -90,13 +118,27 @@ const Home = () => {
   const latestSpacesList = latestSpaces?.map((space) => {
     return (
       <div className="col-md-4 mb-3 home-c" key={space._id}>
-        <div className="card fixed-size-card" onClick={() => spaceid(space._id)}>
-          <img className="img-top fixed-size-img" alt="space" src={space.photos[0]} />
+        <div
+          className="card fixed-size-card"
+          onClick={() => spaceid(space._id)}
+        >
+          <img
+            className="img-top fixed-size-img"
+            alt="space"
+            src={space.photos[0]}
+          />
           <div className="card-body">
             <h4 className="card-title">{space.spaceName}</h4>
-            <p className="card-text"><b>Address:</b> {space.spaceAddress}</p>
-            <p className="card-text"><b>Cost:</b> {space.pricing}</p>
-            <p className="card-text"><b>Capacity:</b>{space.Capacity}</p>
+            <p className="card-text">
+              <b>Address:</b> {space.spaceAddress}
+            </p>
+            <p className="card-text">
+              <b>Cost:</b> {space.pricing}
+            </p>
+            <p className="card-text">
+              <b>Capacity:</b>
+              {space.Capacity}
+            </p>
           </div>
         </div>
       </div>
@@ -107,9 +149,9 @@ const Home = () => {
     navigate({
       pathname: "/search",
       search: createSearchParams({
-        t: type,
-        l: location,
-        K: keyword,
+        type,
+        location,
+        keyword,
       }).toString(),
     });
   };
@@ -119,7 +161,7 @@ const Home = () => {
   };
 
   const handleTypeChange = (e) => {
-    setType(e.target.options[e.target.selectedIndex].text);
+    setType(e.target.value);
   };
 
   const handleKeywordChange = (e) => {
@@ -128,11 +170,7 @@ const Home = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (location === "0") {
-      alert("Please select a valid location");
-    } else {
-      redirect();
-    }
+    redirect();
   };
 
   const iconClickHandler = (home) => {
@@ -172,11 +210,11 @@ const Home = () => {
                 }}
                 onChange={handleTypeChange}
               >
-                <option>Space Type</option>
-                <option>Tree House</option>
-                <option>Meeting Spaces</option>
-                <option>Cabins</option>
-                <option>Domes</option>
+                <option value="">Space Type</option>
+                <option value="Tree House">Tree House</option>
+                <option value="Meeting Spaces">Meeting Spaces</option>
+                <option value="Cabins">Cabins</option>
+                <option value="Domes">Domes</option>
               </select>
               <select
                 className="form-select form-select-h"
@@ -189,53 +227,75 @@ const Home = () => {
                 }}
                 onChange={handleLocationChange}
               >
-                <option value="0">Space Location</option>
-                <option value="New York">Halifax</option>
-                <option value="Los Angeles">Toronto</option>
+                <option value="">Space Location</option>
+                <option value="Halifax">Halifax</option>
+                <option value="Toronto">Toronto</option>
                 <option value="Chicago">Chicago</option>
                 <option value="San Francisco">San Francisco</option>
               </select>
             </form>
             <div className="icon-container">
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('hotel')}>
+              <div className="icon" onClick={() => iconClickHandler("hotel")}>
                 <FaHotel size={40} color="white" />
                 <span>Hotel</span>
               </div>
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('lakefront')}>
+              <div
+                className="icon"
+                onClick={() => iconClickHandler("lakefront")}
+              >
                 <FaWater size={40} color="white" />
                 <span>Lakefront</span>
               </div>
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('amazing_destinations')}>
+              <div
+                className="icon"
+                onClick={() => iconClickHandler("amazing_destinations")}
+              >
                 <FaPlane size={40} color="white" />
                 <span>Amazing Destinations</span>
               </div>
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('beautiful_pools')}>
+              <div
+                className="icon"
+                onClick={() => iconClickHandler("beautiful_pools")}
+              >
                 <FaSwimmingPool size={40} color="white" />
                 <span>Beautiful Pools</span>
               </div>
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('countryside')}>
+              <div
+                className="icon"
+                onClick={() => iconClickHandler("countryside")}
+              >
                 <FaTractor size={40} color="white" />
                 <span>Countryside</span>
               </div>
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('tree_houses')}>
+              <div
+                className="icon"
+                onClick={() => iconClickHandler("tree_houses")}
+              >
                 <GiTreehouse size={40} color="white" />
                 <span>Tree Houses</span>
               </div>
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('halifax_specials')}>
+              <div
+                className="icon"
+                onClick={() => iconClickHandler("halifax_specials")}
+              >
                 <FaHome size={40} color="white" />
                 <span>Halifax Specials</span>
               </div>
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('farms')}>
+              <div className="icon" onClick={() => iconClickHandler("farms")}>
                 <GiFarmTractor size={40} color="white" />
                 <span>Farms</span>
               </div>
-              <div className="icon" onClick={(handleSubmit) => iconClickHandler('space_share_special')}>
+              <div
+                className="icon"
+                onClick={() => iconClickHandler("space_share_special")}
+              >
                 <GiBarn size={40} color="white" />
                 <span>SpaceShare Special</span>
               </div>
             </div>
             <p className="quote text-center" style={{ fontSize: "2.5vw" }}>
-              Uncover unique spots and authentic places in your favorite cities like Halifax and many more....”{" "}
+              Uncover unique spots and authentic places in your favorite cities
+              like Halifax and many more....”{" "}
             </p>
           </div>
         </div>
@@ -251,21 +311,16 @@ const Home = () => {
               <h2 className="mb-3">Top Spaces in this Month</h2>
             </div>
             <div className="col-12">
-              <div className="row">
-                {topSpacesList}  
-              </div>
+              <div className="row">{topSpacesList}</div>
             </div>
           </div>
         </div>
       </section>
 
-        <div className="container">
-          <h2 className="mb-3">Top Spaces with Seating Capacity</h2>
-          <div className="row">
-            {latestSpacesList}
-          </div>
-        </div>
-
+      <div className="container">
+        <h2 className="mb-3">Top Spaces with Seating Capacity</h2>
+        <div className="row">{latestSpacesList}</div>
+      </div>
     </div>
   );
 };
