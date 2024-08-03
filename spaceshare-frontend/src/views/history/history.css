@@ -1,0 +1,238 @@
+/* General Styles */
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #333;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid #ccc; /* Light border color */
+}
+
+.table th {
+  background-color: #dee2e6; /* Light gray header background */
+  font-weight: 700;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 123, 255, 0.1); /* Light blue hover effect */
+}
+
+.table-success {
+  background-color: #d4edda; /* Light green background for success */
+}
+
+.table-primary {
+  background-color: #cce5ff; /* Light blue background for primary */
+}
+
+.table-light-blue {
+  background-color: #d1ecf1; /* Light cyan background for light blue */
+}
+
+/* Modal Styles */
+.modal-content {
+  border-radius: 15px; /* More rounded corners */
+  background-color: #ffefd5; /* Vibrant light peach color */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #333; /* Darker text color for contrast */
+  box-shadow: 0 10px 20px rgba(206, 189, 189, 0.2); /* Stronger shadow */
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.modal-title {
+  margin-bottom: 0;
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.modal-body {
+  position: relative;
+  padding: 1.5rem;
+  background-color: #ffefd5; /* Vibrant light peach color */
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+  border-top: 1px solid #ccc; /* Light border color */
+  background-color: #f1f1f1; /* Light gray footer background */
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  font-size: 1.75rem;
+}
+
+.rating input {
+  display: none;
+}
+
+.rating label {
+  position: relative;
+  width: 1.5em;
+  color: #ffca08;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.rating label::before {
+  content: "★";
+  position: absolute;
+  opacity: 0;
+}
+
+.rating label:hover:before,
+.rating label:hover ~ label:before,
+.rating input:checked ~ label:before {
+  opacity: 1;
+}
+
+.rating-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6f42c1; /* Vibrant purple background */
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.rc {
+  width: 100%;
+  min-height: 120px;
+  padding: 15px;
+  border: 1px solid #ccc; /* Light border color */
+  border-radius: 8px;
+  resize: vertical;
+  font-family: "Arial", sans-serif;
+  font-size: 1rem;
+  background-color: #ffe4b5; /* Light peach background for text area */
+  color: #333; /* Darker text color for contrast */
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 8px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #ff851b; /* Change to a vibrant orange color */
+  border-color: #ff851b;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #17a2b8; /* Change to a vibrant teal color */
+  border-color: #17a2b8;
+}
+
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.btn:hover {
+  background-color: #e67e22;
+  border-color: #d35400;
+}
+
+.btn-danger:hover {
+  background-color: #138496;
+  border-color: #117a8b;
+}
+
+.m-5 {
+  margin: 3rem !important;
+}
+
+.fcontainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.flex-column {
+  flex-direction: column !important;
+}
+
+/* Custom Styles */
+.rating-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #6f42c1; /* Vibrant purple background */
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.rating-container label {
+  margin: 0 0.25rem;
+  font-size: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-check-label {
+  margin-left: 0.5rem;
+  color: #333; /* Darker text color for contrast */
+}
+
+textarea.form-control {
+  background-color: #ffe4b5; /* Light peach background for text area */
+  color: #333; /* Darker text color for contrast */
+  border-radius: 8px;
+}
+.review-form {
+  background-color: #ffe4b5;
+  border-radius: 8px;
+
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #cccccc; /* Light border color */
+
+  color: #35332f; /* White text color for contrast */
+  border-top-left-radius: 15px;
+}
+.ll {
+  padding: 1rem 1.5rem;
+  /* Light border color */
+  background-color: #ff6f61; /* Bold, vibrant color */
+  color: #fff; /* White text color for contrast */
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  text-align: center;
+}
+.rating {
+  background-color: #5136c1;
+}
