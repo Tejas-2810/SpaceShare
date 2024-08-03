@@ -1,0 +1,121 @@
+/* styles.css */
+.filter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.filter-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.filter-group select {
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+.button-group {
+  margin-bottom: 20px;
+}
+
+.button-group .btn {
+  margin-right: 10px;
+  background-color: #8b4513; /* Brown button color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.button-group .btn:hover {
+  background-color: #5a2e0c; /* Darker brown hover color */
+}
+
+.space-card {
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transform and shadow transition */
+  overflow: hidden; /* Ensures child elements like images are clipped within rounded corners */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensures the card takes the full height available */
+  width: 100%; /* Ensures the card takes the full width available */
+  max-width: 300px; /* Ensures the card has a max width */
+  margin: 15px; /* Ensures consistent spacing between cards */
+}
+
+.space-card:hover {
+  transform: scale(1.05); /* Scale up the card slightly on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhance shadow on hover */
+}
+
+.card-img-top {
+  border-top-left-radius: 15px; /* Match the rounded corners of the card */
+  border-top-right-radius: 15px; /* Match the rounded corners of the card */
+  height: 200px; /* Fixed height for consistency */
+  object-fit: cover; /* Ensures image covers the entire area */
+  transition: transform 0.2s ease-in-out; /* Smooth transform transition */
+}
+
+.space-card:hover .card-img-top {
+  transform: scale(1.1); /* Slightly zoom in the image on hover */
+}
+
+.card-body {
+  flex: 1; /* Allows the card body to grow and fill the remaining space */
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures the content is evenly spaced */
+}
+
+.card-text {
+  margin-bottom: 10px; /* Adds spacing between paragraphs */
+}
+
+.space-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the cards */
+  gap: 15px; /* Consistent gap between cards */
+  background-color: #eef2f7; /* Light background color for the section */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.space-item {
+  display: flex;
+  justify-content: center;
+  flex-basis: 300px; /* Ensures the cards have a consistent width */
+  margin: 15px; /* Adds spacing between cards */
+}
+
+.space-card .btn {
+  background-color: #8b4513; /* Brown button color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.space-card .btn:hover {
+  background-color: #5a2e0c; /* Darker brown hover color */
+}
