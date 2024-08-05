@@ -217,6 +217,12 @@ const Dashboard = () => {
   // adding a space
   const handAddSpace = async (e) => {
     e.preventDefault();
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'spaceAddition_submission'
+    });
+
     if (
       !spaceName || spaceName === "" ||
       !address || address === "" ||
@@ -394,7 +400,7 @@ const Dashboard = () => {
 
         <div className="form-container col-md-6 p-5">
           <div className="border p-5 glass">
-            <form className="form">
+            <form id ="spaceAdditionForm" className="form">
               <h1 className="text-center">Add Space Details</h1>
               <div className="form-group">
                 <label htmlFor="spaceName">Space Name</label>

@@ -136,6 +136,13 @@ const Reserve = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Push event to the data layer
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'reservation_submission'
+    });
+    
     try {
       const formData = {
         name: e.target.nameInput.value,
@@ -254,7 +261,7 @@ const Reserve = () => {
           </Card>
         </div>
         <div className="col-6">
-          <form className="m-5 fcontainer" onSubmit={handleSubmit}>
+          <form id ="reservationForm" className="m-5 fcontainer" onSubmit={handleSubmit}>
             <h4 className="text-center text-capitalize">
               <b>Reservation Form</b>
             </h4>
