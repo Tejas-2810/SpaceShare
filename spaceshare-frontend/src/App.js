@@ -14,7 +14,7 @@ import Results from "./views/result/results";
 import History from "./views/history/history";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Contact from "./views/contact/contact";
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import TagManager from 'react-gtm-module';
 
 const ROLES = {
