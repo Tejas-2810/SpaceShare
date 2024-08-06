@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./dashboard.css";
 import axios, { isAxiosError } from "axios";
 import useAuth from "../../hooks/useAuth";
-import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 const server_url = process.env.REACT_APP_SERVER_URL || "http://localhost:8080";
@@ -175,23 +175,6 @@ const Dashboard = () => {
   } else {
     gtwo = [{ label: "No Spaces", y: 0 }];
   }
-  if (pdata) {
-    gthree = [
-      {
-        label: "Paid Booking",
-        y: parseFloat(pdata.paidBookingPercentage) || 1,
-      },
-      {
-        label: "Free Booking",
-        y: parseFloat(pdata.freeBookingPercentage) || 1,
-      },
-    ];
-  } else {
-    gthree = [
-      { label: "Paid Booking", y: 0 },
-      { label: "Free Booking", y: 0 },
-    ];
-  }
 
   const barOptions = {
     backgroundColor: null,
@@ -218,21 +201,29 @@ const Dashboard = () => {
   const handAddSpace = async (e) => {
     e.preventDefault();
 
-    window.gtag('event', 'spaceAddition_submission', {
-      'event_category': 'Space Addition',
-      'event_label': 'Form Submission',
-      'value': 1
-    });
-
+     window.gtag("event", "spaceAddition_submission", {
+       event_category: "Space Addition",
+       event_label: "Form Submission",
+       value: 1,
+     });
+     
     if (
-      !spaceName || spaceName === "" ||
-      !address || address === "" ||
-      !pricing || pricing === "" ||
-      !checkInTime || checkInTime === "" ||
-      !checkOutTime || checkOutTime === "" ||
-      !spaceType || spaceType === "" ||
-      !contactNumber || contactNumber === "" ||
-      !Capacity || Capacity === ""
+      !spaceName ||
+      spaceName === "" ||
+      !address ||
+      address === "" ||
+      !pricing ||
+      pricing === "" ||
+      !checkInTime ||
+      checkInTime === "" ||
+      !checkOutTime ||
+      checkOutTime === "" ||
+      !spaceType ||
+      spaceType === "" ||
+      !contactNumber ||
+      contactNumber === "" ||
+      !Capacity ||
+      Capacity === ""
     ) {
       alert("Please fill all the fields");
       return;
@@ -257,32 +248,33 @@ const Dashboard = () => {
 
       const form = new FormData();
       const data = {
-          spaceName: spaceName,
-          spaceAddress: address,
-          pricing: pricing,
-          checkInTime: checkInTime,
-          checkOutTime: checkOutTime,
-          contactNumber: contactNumber,
-          spaceType: spaceType,
-          Capacity: Capacity
+        spaceName: spaceName,
+        spaceAddress: address,
+        pricing: pricing,
+        checkInTime: checkInTime,
+        checkOutTime: checkOutTime,
+        contactNumber: contactNumber,
+        spaceType: spaceType,
+        Capacity: Capacity,
       };
       if (photos && photos.length) {
         for (let i = 0; i < photos.length; i++) {
-          form.append('photos', photos[i]); 
+          form.append("photos", photos[i]);
         }
       }
-      form.append('data', JSON.stringify(data));
-      form.append('userId', userId);
+      form.append("data", JSON.stringify(data));
+      form.append("userId", userId);
 
       const addSpaceUrl = `${server_url}/api/spaces/createspaces`;
-      const response = await axios.post(addSpaceUrl, form, { headers })
-      .then((response) => response)
+      const response = await axios
+        .post(addSpaceUrl, form, { headers })
+        .then((response) => response)
         .catch((err) => err);
 
       if (response.status === 200 || response.status === 201) {
         // Handle success
         alert("Space added successfully");
-        navigate("/dashboard"); 
+        navigate("/dashboard");
       }
       if (isAxiosError(response)) {
         alert("Error adding restaurant");
@@ -327,30 +319,6 @@ const Dashboard = () => {
     }
   };
 
-  const pieOptions = {
-    backgroundColor: null,
-    exportEnabled: true,
-    animationEnabled: true,
-    title: {
-      text: "Booking Type",
-    },
-    data: [
-      {
-        type: "pie",
-        startAngle: 75,
-        toolTipContent: "<b>{label}</b>: {y}%",
-        showInLegend: "true",
-        legendText: "{label}",
-        indexLabelFontSize: 16,
-        indexLabel: "{label} - {y}%",
-        dataPoints: gthree.map((item) => ({
-          label: item.label,
-          y: item.y,
-        })),
-      },
-    ],
-  };
-
   const barOptions2 = {
     backgroundColor: null,
     title: {
@@ -370,38 +338,9 @@ const Dashboard = () => {
   return (
     <div className="cb">
       <div className="row" style={{ width: "100%" }}>
-        <div className="col-md-6">
-          <div className="row my-auto justify-content-evenly my-auto mx-3">
-            <div className="card col-md-5">
-              <div className="card-body text-center">
-                <h5 className="card-title">Total Bookings</h5>
-                <p className="card-text">{tb}</p>
-              </div>
-            </div>
-            <div className="card col-md-5 ">
-              <div className="card-body text-center">
-                <h5 className="card-title">Average Ratings</h5>
-                <p className="card-text">{ar}⭐</p>
-              </div>
-            </div>
-          </div>
-          <div className="my-2 m-5 p-5">
-            {" "}
-            <CanvasJSChart options={barOptions} />
-          </div>
-          <div className="my-2 m-5 p-5">
-            {" "}
-            <CanvasJSChart options={pieOptions} />
-          </div>
-          <div className="my-2 m-5 p-5">
-            {" "}
-            <CanvasJSChart options={barOptions2} />
-          </div>
-        </div>
-
         <div className="form-container col-md-6 p-5">
           <div className="border p-5 glass">
-            <form id ="spaceAdditionForm" className="form">
+            <form className="form">
               <h1 className="text-center">Add Space Details</h1>
               <div className="form-group">
                 <label htmlFor="spaceName">Space Name</label>
@@ -546,6 +485,31 @@ const Dashboard = () => {
                   ))}
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <div className="col-md-6">
+          <div className="row my-auto justify-content-evenly my-auto mx-3">
+            <div className="card col-md-5">
+              <div className="card-body text-center">
+                <h5 className="card-title">Total Bookings</h5>
+                <p className="card-text">{tb}</p>
+              </div>
+            </div>
+            <div className="card col-md-5 ">
+              <div className="card-body text-center">
+                <h5 className="card-title">Average Ratings</h5>
+                <p className="card-text">{ar}⭐</p>
+              </div>
+            </div>
+          </div>
+          <div className="my-2 m-5 p-5">
+            {" "}
+            <CanvasJSChart options={barOptions} />
+          </div>
+          <div className="my-2 m-5 p-5">
+            {" "}
+            <CanvasJSChart options={barOptions2} />
           </div>
         </div>
       </div>
