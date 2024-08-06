@@ -23,7 +23,7 @@ const ROLES = {
 };
 
 const tagManagerArgs = {
-  gtmId: 'GTM-M6JW7SWJ'
+  gtmId: 'G-72QDP0PQDM'
 };
 
 function App() {
