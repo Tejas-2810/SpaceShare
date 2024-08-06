@@ -12,32 +12,23 @@ import Dashboard from "./views/dashboard/dashboard";
 import RequireAuth from "./utils/RequireAuth";
 import Results from "./views/result/results";
 import History from "./views/history/history";
-import { HashRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import { HashRouter as Router, Route, Routes} from "react-router-dom";
 import Contact from "./views/contact/contact";
 import { useEffect } from 'react';
+import PageTracker from './components/PageTracker';
 
 const ROLES = {
   USER: "user",
   SPACE_OWNER: "space owner",
 };
 
-function usePageTracking() {
-  const location = useLocation();
-
-  useEffect(() => {
-    window.gtag('config', 'G-72QDP0PQDM', {
-      page_path: location.pathname,
-    });
-  }, [location]);
-}
-
 
 function App() {
-  usePageTracking();
 
   return (
     <div className="r">
       <Router>
+      <PageTracker />
         <Navbar />
         <Routes>
           {/* public routes */}
