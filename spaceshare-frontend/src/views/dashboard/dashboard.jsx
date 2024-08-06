@@ -218,9 +218,10 @@ const Dashboard = () => {
   const handAddSpace = async (e) => {
     e.preventDefault();
 
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'spaceAddition_submission'
+    window.gtag('event', 'spaceAddition_submission', {
+      'event_category': 'Space Addition',
+      'event_label': 'Form Submission',
+      'value': 1
     });
 
     if (

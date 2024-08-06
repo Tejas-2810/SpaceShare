@@ -12,24 +12,28 @@ import Dashboard from "./views/dashboard/dashboard";
 import RequireAuth from "./utils/RequireAuth";
 import Results from "./views/result/results";
 import History from "./views/history/history";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import Contact from "./views/contact/contact";
 import { useEffect } from 'react';
-import TagManager from 'react-gtm-module';
 
 const ROLES = {
   USER: "user",
   SPACE_OWNER: "space owner",
 };
 
-const tagManagerArgs = {
-  gtmId: 'G-72QDP0PQDM'
-};
+function usePageTracking() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.gtag('config', 'G-72QDP0PQDM', {
+      page_path: location.pathname,
+    });
+  }, [location]);
+}
+
 
 function App() {
-  useEffect(() => {
-    TagManager.initialize(tagManagerArgs);
-  }, []);
+  usePageTracking();
 
   return (
     <div className="r">
@@ -49,7 +53,6 @@ function App() {
           <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />} />
           <Route path="/history" element={<History />} />
         
-          <Route element={<RequireAuth allowedRoles={[ROLES.SPACE_OWNER]} />} />
           <Route element={<RequireAuth allowedRoles={[ROLES.SPACE_OWNER]} />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>

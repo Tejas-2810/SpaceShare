@@ -137,12 +137,12 @@ const Reserve = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Push event to the data layer
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: 'reservation_submission'
+    window.gtag('event', 'reservation_submission', {
+      'event_category': 'Reservation',
+      'event_label': 'Form Submission',
+      'value': 1
     });
-    
+
     try {
       const formData = {
         name: e.target.nameInput.value,
