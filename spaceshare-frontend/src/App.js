@@ -53,6 +53,7 @@ function App() {
           <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />} />
           <Route path="/history" element={<History />} />
         
+          <Route element={<RequireAuth allowedRoles={[ROLES.SPACE_OWNER]} />} />
           <Route element={<RequireAuth allowedRoles={[ROLES.SPACE_OWNER]} />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
