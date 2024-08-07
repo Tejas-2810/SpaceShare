@@ -124,57 +124,11 @@ const Reserve = () => {
     </div>
   ));
   
-  
-  
-
   return (
     <div className="pcontainer container main-content">
       <div className="row">
         <div className="col-md-6">
-          <Card className="card-reserve">
-            <Card.Body className="cbody">
-              <Carousel className="border-bottom">
-                {spaceData?.photos?.map((pic, index) => (
-                  <Carousel.Item key={index}>
-                    <img className="d-block w-100" src={pic} alt="Space images" />
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            </Card.Body>
-            <Card.Footer className="cfooter text-white">
-  <div className="d-flex justify-content-between align-items-center mb-3 separator">
-    <h2>{spaceData?.spaceName}</h2>
-    <div>
-      {reviewData && (
-        <span  className="btn rating btn-success">
-          {reviewData.averageRating.toFixed(1)}
-        </span>
-      )}
-
-  <button onClick={copyToClipboard} className="btn icon-button" title="Share Space">
-    <i className="bi bi-share"></i>
-  </button>
-  <button onClick={toggleReviews} className="btn icon-button ml-2" title="Show Reviews">
-    <i className="bi bi-card-text"></i>
-  </button>
-
-
-    </div>
-  </div>
-  <div>
-    <p><strong>Address:</strong> {spaceData?.spaceAddress}</p>
-    <p><strong>Phone:</strong> {spaceData?.contactNumber}</p>
-    <p><strong>Check-IN Time:</strong> {spaceData?.checkInTime}</p>
-    <p><strong>Check-OUT Time:</strong> {spaceData?.checkOutTime}</p>
-    <p><strong>Capacity:</strong> {spaceData?.Capacity}</p>
-    <p><strong>Category:</strong> {spaceData?.spaceType}</p>
-    <p><strong>Pricing:</strong> ${spaceData?.pricing}</p>
-  </div>
-</Card.Footer>
-          </Card>
-        </div>
-        <div className="col-md-6">
-        <form className="m-5 fcontainer" onSubmit={handleSubmit}>
+          <form className="m-5 fcontainer" onSubmit={handleSubmit}>
             <h4 className="text-center text-capitalize"><b>Reservation Form</b></h4>
             <hr />
             <div className="form-group">
@@ -210,37 +164,75 @@ const Reserve = () => {
             <button type="submit" className="btn btn-primary mt-4">Submit</button>
           </form>
         </div>
+        <div className="col-md-6">
+          <Card className="card-reserve">
+            <Card.Body className="cbody">
+              <Carousel className="border-bottom">
+                {spaceData?.photos?.map((pic, index) => (
+                  <Carousel.Item key={index}>
+                    <img className="d-block w-100" src={pic} alt="Space images" />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            </Card.Body>
+            <Card.Footer className="cfooter text-white">
+              <div className="d-flex justify-content-between align-items-center mb-3 separator">
+                <h2>{spaceData?.spaceName}</h2>
+                <div>
+                  {reviewData && (
+                    <span className="btn rating btn-success">
+                      {reviewData.averageRating.toFixed(1)}
+                    </span>
+                  )}
+                  <button onClick={copyToClipboard} className="btn icon-button" title="Share Space">
+                    <i className="bi bi-share"></i>
+                  </button>
+                  <button onClick={toggleReviews} className="btn icon-button ml-2" title="Show Reviews">
+                    <i className="bi bi-card-text"></i>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <p><strong>Address:</strong> {spaceData?.spaceAddress}</p>
+                <p><strong>Phone:</strong> {spaceData?.contactNumber}</p>
+                <p><strong>Check-IN Time:</strong> {spaceData?.checkInTime}</p>
+                <p><strong>Check-OUT Time:</strong> {spaceData?.checkOutTime}</p>
+                <p><strong>Capacity:</strong> {spaceData?.Capacity}</p>
+                <p><strong>Category:</strong> {spaceData?.spaceType}</p>
+                <p><strong>Pricing:</strong> ${spaceData?.pricing}</p>
+              </div>
+            </Card.Footer>
+          </Card>
+        </div>
       </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-  <Modal.Header closeButton>
-    <Modal.Title>Reviews</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-  <div className="reviews-header mb-3 d-flex align-items-center">
-    <div className="me-2">
-      <h4>Average Rating:</h4>
-    </div>
-    <div>
-      <Rating
-        value={reviewData?.averageRating}
-        size={24}
-        edit={false}
-        activeColor="#ffd700"
-      />
-    </div>
-    <div className="ms-2">
-      <h4>({reviewData?.reviews.length} Reviews)</h4>
-    </div>
-  </div>
-  {reviewDisplay}
-</Modal.Body>
-
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
-  </Modal.Footer>
-</Modal>
-
+        <Modal.Header closeButton>
+          <Modal.Title>Reviews</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="reviews-header mb-3 d-flex align-items-center">
+            <div className="me-2">
+              <h4>Average Rating:</h4>
+            </div>
+            <div>
+              <Rating
+                value={reviewData?.averageRating}
+                size={24}
+                edit={false}
+                activeColor="#ffd700"
+              />
+            </div>
+            <div className="ms-2">
+              <h4>({reviewData?.reviews.length} Reviews)</h4>
+            </div>
+          </div>
+          {reviewDisplay}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
+        </Modal.Footer>
+      </Modal>
 
       <ToastContainer />
     </div>
