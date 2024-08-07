@@ -53,9 +53,16 @@ const Navb = () => {
           <Nav.Link onClick={() => redirect("4")} className="tw">
             FAQ
           </Nav.Link>
-          <Nav.Link onClick={() => redirect("5")} className="tw">
+          {/* <Nav.Link onClick={() => redirect("5")} className="tw">
             MyBookings
-          </Nav.Link>
+          </Nav.Link> */}
+          {getAuthData()?.role === "user" ? (
+            isSessionValid() ? (
+              <Nav.Link onClick={() => redirect("5")} className="tw">
+                My Bookings
+              </Nav.Link>
+            ) : null
+          ) : null}
           {!isSessionValid() ? (
             <Nav.Link onClick={() => redirect("1")} className="tw">
               Sign in
