@@ -1,6 +1,24 @@
 .cfooter{
     background-color: rgb(8, 37, 71);
 }
+
+body {
+    background-color: #f7eed6; /* A light skin-tone color, adjust as needed */
+  }
+  
+  .reviews-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .reviews-header h4 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+  }
+  
+
+  
 .card-reserve{
     margin-top: 20px;
     margin-bottom: 20px;
@@ -10,11 +28,22 @@
 
 }
 
+.icon-button {
+    font-size: 3.5rem;  
+    padding: 0.5rem;    
+}
+
+
 .main-content {
     padding-top: 100px; 
 }
 
-.rating{
+.rating {
+    font-size: 1.5rem; 
+    padding: 0.5rem;   
+    margin-left: 5px; 
+
+
     background-color: #029221 !important;
 }
 .menu{
@@ -95,6 +124,12 @@
 .rating>label:hover~label:before {
     opacity: 1 !important
 }
+
+.separator {
+    border-bottom: 2px solid white;  /* Creates a solid white line */
+    margin-bottom: 10px;  /* Adds space below the line */
+}
+
 
 .rating>input:checked~label:before {
     opacity: 1
